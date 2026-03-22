@@ -10,7 +10,7 @@
 # @raycast.argument1 { "type": "text", "placeholder": "颜色代码 (r/b/g/y/p/o/oo)" }
 
 # Documentation:
-# @raycast.author xyk
+# @raycast.author xxx
 
 on run argv
     set colorValue to item 1 of argv
