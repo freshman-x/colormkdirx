@@ -29,17 +29,11 @@ It can make directory in specified color. Also, it can manage color list by edit
 
 * **macOS**
 
-## Use Homebrew
+## Installation
 
-```
-brew install mimomimoto/tap/colormkdir
-```
-`colormkdir` use python3 and you need to install some libraries.
+> **Note:** This fork does not support Homebrew installation. Please use Manual Installation below.
 
-```
-pip install pyobjc pillow glob2
-```
-## Manual Installation
+### Manual Installation
 1. git clone this repository.
 2. Write PATH to `~/.zshrc`.
 3. Change `colormkdir` permission by using chmod.
