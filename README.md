@@ -2,49 +2,47 @@
   <img width="300" alt="colormkdir logo" src="https://user-images.githubusercontent.com/99246880/224245097-6d4617a3-6987-43ad-81af-6b4696e7c9fc.png" />
 </div>
 
-**Table of Contents**
+[English](./README_en.md) | **中文**
+
+**目录**
 - [colormkdir](#colormkdir)
-- [Demo](#demo)
-- [Installation](#Installation)
-    - [Use Homebrew](#use_homebrew)
-    - [Manual Installation](#manual_installation)
-- [Usage](#usage)
-    - [Create color list](#create_color_list)
-    - [Update color list](#update_color_list)
-    - [Make directory in specified color](#make_directory_in_specified_color)
-    - [Change directory color as specified color](#change_directory_color_as_specified_color)
-    - [Reset directory to default icon](#reset_directory_to_default_icon)
-    - [Raycast Integration](#raycast_integration)
-    - [Help command](#help_command)
+- [演示](#演示)
+- [安装](#安装)
+- [使用](#使用)
+    - [创建颜色列表](#创建颜色列表)
+    - [更新颜色列表](#更新颜色列表)
+    - [创建带颜色的目录](#创建带颜色的目录)
+    - [修改目录颜色](#修改目录颜色)
+    - [恢复目录默认图标](#恢复目录默认图标)
+    - [Raycast 集成](#raycast-集成)
+    - [帮助命令](#帮助命令)
 
 # colormkdir
-`colormkdir` is a CLI for macOS to customize folder color. 
-It can make directory in specified color. Also, it can manage color list by editing json file.
+`colormkdir` 是一个用于 macOS 自定义文件夹颜色的命令行工具。
+它可以创建带指定颜色的目录，也可以通过编辑 JSON 文件管理颜色列表。
 
-# Demo
+# 演示
 ![demo.gif](https://user-images.githubusercontent.com/99246880/224244901-8ff520df-f383-4c35-a185-dba17773eabd.gif)
 
-# Installation
-**Supported platforms**
+# 安装
+**支持的平台**
 
 * **macOS**
 
-## Installation
+> **注意：** 此 Fork 版本不支持 Homebrew 安装，请使用下面的手动安装方式。
 
-> **Note:** This fork does not support Homebrew installation. Please use Manual Installation below.
+## 手动安装
+1. git clone 本仓库。
+2. 将 PATH 写入 `~/.zshrc`。
+3. 使用 chmod 修改 `colormkdir` 权限。
+4. 运行 `source ~/.zshrc`。
+5. `pip install pyobjc pillow glob2`
 
-### Manual Installation
-1. git clone this repository.
-2. Write PATH to `~/.zshrc`.
-3. Change `colormkdir` permission by using chmod.
-4. run `source ~/.zshrc`.
-5. `pip install pyobjc pillow glob2 `
+> `colormkdir` 使用你的全局 Python 环境。如果不想在这些库安装到全局环境，请编辑 colormkdir.sh（第 64 行）。
 
-> `colormkdir` use your global python environment. If you don't want to install these libraries in your global environment, you should edit colormkdir.sh (line 64).
-
-# Usage
-## Create color list
-Color list is managed by JSON file. (If you use Homebrew, the file path is '/opt/homebrew/Cellar/colormkdir/0.0.1/libexec/color_list.json' in my case) You need to decide `color name` and `color code` as shown below. (It is a default definition)
+# 使用
+## 创建颜色列表
+颜色列表由 JSON 文件管理。（如果你使用 Homebrew，文件路径是 `/opt/homebrew/Cellar/colormkdir/0.0.1/libexec/color_list.json`）你需要定义 `颜色名称` 和 `颜色代码`，如下所示。（这是默认定义）
 ```
 {
     "r":"#ff0000",
@@ -56,82 +54,81 @@ Color list is managed by JSON file. (If you use Homebrew, the file path is '/opt
 }
 ```
 
-## Update color list
-After change color list, you need to run command for updating color list. 
+## 更新颜色列表
+修改颜色列表后，需要运行命令更新颜色列表。
 ```
 colormkdir -u
 ```
 
-## Make directory in specified color
+## 创建带颜色的目录
 ```
-colormkdir -m [value] <directory name>
+colormkdir -m [颜色代码] <目录名称>
 ```
-[value] is `color name` defined in color list. If directory name is already exsisted, it will be error.
+[颜色代码] 是在颜色列表中定义的 `颜色名称`。如果目录已存在则会报错。
 
-## Change directory color as specified color
+## 修改目录颜色
 ```
-colormkdir -c [value] <directory name>
+colormkdir -c [颜色代码] <目录名称>
 ```
-[value] is `color name` defined in color list. If directory name is not exsisted, it will be error.
+[颜色代码] 是在颜色列表中定义的 `颜色名称`。如果目录不存在则会报错。
 
-## Reset directory to default icon
+## 恢复目录默认图标
 ```
-colormkdir -r <directory name>
+colormkdir -r <目录名称>
 ```
-Resets a previously colored directory back to its default macOS icon.
+将已着色的目录恢复为 macOS 默认图标。
 
-## Help command
+## 帮助命令
 ```
 colormkdir -h
 ```
 
-## Raycast Integration
+## Raycast 集成
 
-You can use `colormkdir` with Raycast for a faster workflow. The included AppleScript (`cdirsX批量改变文件夹颜色V2.applescript`) allows you to batch change folder colors directly from Finder selection.
+你可以将 `colormkdir` 与 Raycast 结合使用，获得更高效的工作流程。附带的 AppleScript 脚本（`cdirsX批量改变文件夹颜色V2.applescript`）允许你直接从 Finder 选中的文件夹批量更改颜色。
 
-### Installation for Raycast
+### Raycast 安装步骤
 
-1. Copy the AppleScript file to your Raycast Scripts directory:
+1. 将 AppleScript 文件拷贝到 Raycast Scripts 目录：
    ```
    ~/Library/Application Support/com.raycast.macos/scripts/
    ```
 
-2. Open Raycast and search for the script by name: `cdirsX批量改变文件夹颜色V2`
+2. 打开 Raycast 并搜索脚本名称：`cdirsX批量改变文件夹颜色V2`
 
-3. The script will appear in Raycast and is ready to use.
+3. 脚本会出现在 Raycast 中，可以直接使用。
 
-### How It Works
+### 工作原理
 
-The Raycast script uses `colormkdir` with the following color codes:
+Raycast 脚本使用 `colormkdir`，支持以下颜色代码：
 
-| Code | Color |
-|------|-------|
-| `r` | Red |
-| `b` | Blue |
-| `g` | Green |
-| `y` | Yellow |
-| `p` | Purple |
-| `o` | Orange |
-| `oo` | Reset to default |
+| 代码 | 颜色 |
+|------|------|
+| `r` | 红色 |
+| `b` | 蓝色 |
+| `g` | 绿色 |
+| `y` | 黄色 |
+| `p` | 紫色 |
+| `o` | 橙色 |
+| `oo` | 恢复默认 |
 
-### Usage
+### 使用方法
 
-1. Select one or more folders in Finder
-2. Open Raycast and type the script name
-3. Enter a color code when prompted
-4. The script will batch update all selected folders using `colormkdir -c <color> <folder>` or `colormkdir -r <folder>` for reset
+1. 在 Finder 中选中一个或多个文件夹
+2. 打开 Raycast 并输入脚本名称
+3. 输入颜色代码
+4. 脚本将批量更新所有选中的文件夹，使用 `colormkdir -c <颜色> <文件夹>` 或 `colormkdir -r <文件夹>`（恢复默认）
 
-### Configuration
+### 配置
 
-If your `colormkdir` is installed in a different location, edit line 56 of the AppleScript to update the path:
+如果你的 `colormkdir` 安装在不同位置，请修改 AppleScript 第 56 行的路径：
 
 ```applescript
 set colormkdirxPath to "《你的本地安装位置》"
 ```
 
-Also update line 68 if your Python path differs:
+如果你的 Python 路径不同，请修改第 68 行：
 
 ```applescript
 do shell script "export PATH=《你的Python环境路径》:$PATH; " & shellCmd
 ```
-
