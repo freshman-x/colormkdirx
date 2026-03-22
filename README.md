@@ -13,6 +13,8 @@
     - [Update color list](#update_color_list)
     - [Make directory in specified color](#make_directory_in_specified_color)
     - [Change directory color as specified color](#change_directory_color_as_specified_color)
+    - [Reset directory to default icon](#reset_directory_to_default_icon)
+    - [Raycast Integration](#raycast_integration)
     - [Help command](#help_command)
 
 # colormkdir
@@ -78,8 +80,64 @@ colormkdir -c [value] <directory name>
 ```
 [value] is `color name` defined in color list. If directory name is not exsisted, it will be error.
 
+## Reset directory to default icon
+```
+colormkdir -r <directory name>
+```
+Resets a previously colored directory back to its default macOS icon.
+
 ## Help command
 ```
 colormkdir -h
+```
+
+## Raycast Integration
+
+You can use `colormkdir` with Raycast for a faster workflow. The included AppleScript (`cdirsX批量改变文件夹颜色V2.applescript`) allows you to batch change folder colors directly from Finder selection.
+
+### Installation for Raycast
+
+1. Copy the AppleScript file to your Raycast Scripts directory:
+   ```
+   ~/Library/Application Support/com.raycast.macos/scripts/
+   ```
+
+2. Open Raycast and search for the script by name: `cdirsX批量改变文件夹颜色V2`
+
+3. The script will appear in Raycast and is ready to use.
+
+### How It Works
+
+The Raycast script uses `colormkdir` with the following color codes:
+
+| Code | Color |
+|------|-------|
+| `r` | Red |
+| `b` | Blue |
+| `g` | Green |
+| `y` | Yellow |
+| `p` | Purple |
+| `o` | Orange |
+| `oo` | Reset to default |
+
+### Usage
+
+1. Select one or more folders in Finder
+2. Open Raycast and type the script name
+3. Enter a color code when prompted
+4. The script will batch update all selected folders using `colormkdir -c <color> <folder>` or `colormkdir -r <folder>` for reset
+
+### Configuration
+
+If your `colormkdir` is installed in a different location, edit line 56 of the AppleScript to update the path:
+
+```applescript
+set colormkdirxPath to "《你的本地安装位置》"
+```
+
+Also update line 68 if your Python path differs:
+
+```applescript
+do shell script "export PATH=《你的Python环境路径》:$PATH; " & shellCmd
 ```
 

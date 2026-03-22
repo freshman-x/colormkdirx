@@ -10,6 +10,7 @@ OPTIONS:
     -u                                  Update color definition
     -m [value] <directory name>         Make directory in specified color
     -c [value] <directory name>         Change directory color as specified color
+    -r <directory name>                 Reset directory to default icon
 " >&2
 }
 
@@ -59,6 +60,14 @@ Cocoa.NSWorkspace.sharedWorkspace().setIcon_forFile_options_(Cocoa.NSImage.alloc
 EOF
 }
 
+resetFolderIcon(){
+"$1" - "$2" << EOF
+import Cocoa
+import sys
+Cocoa.NSWorkspace.sharedWorkspace().setIcon_forFile_options_(None, sys.argv[1], 0)
+EOF
+}
+
 absolute_path=$(cd $(dirname ${0}) && pwd)
 # set on your python path
 python_path=$(which python || which python3)
@@ -68,9 +77,10 @@ h_flag="0"
 u_flag="0"
 m_flag="0"
 c_flag="0"
+r_flag="0"
 color=""
 
-while getopts 'hum:c:' opt; do
+while getopts 'hum:c:r' opt; do
     case "${opt}" in
         h)  h_flag="1"
             flag_count=$((flag_count + 1));;
@@ -82,6 +92,8 @@ while getopts 'hum:c:' opt; do
         c)  c_flag="1"
             flag_count=$((flag_count + 1))
             color=${OPTARG};;
+        r)  r_flag="1"
+            flag_count=$((flag_count + 1));;
         \?)  usage && exit 1
     esac
 done
@@ -99,7 +111,7 @@ if [ ${u_flag} = "1" ]; then
     updateIcon "$python_path" "$absolute_path"
 fi
 
-if [ ${m_flag} = "1" ]; then 
+if [ ${m_flag} = "1" ]; then
     shift $((OPTIND - 1))
     color_code=$(grep -o '"'"${color}"'":"[^"]*' "${absolute_path}"/color_list.json | grep -o '[^"]*$')
     if [ -z "$color_code" ]; then
@@ -134,4 +146,16 @@ if [ ${c_flag} = "1" ]; then
     FolderIcon="${absolute_path}""/icons/"${color}".icns"
     PathToSetIconFor=$@
     setFolderIcon "$python_path" "$FolderIcon" "$PathToSetIconFor"
+fi
+
+if [ ${r_flag} = "1" ]; then
+    shift $((OPTIND - 1))
+    if [ ! -d $@ ]; then
+        echo "Error: Directory Does Not Exist"
+        usage
+        exit 1
+    fi
+    PathToResetIconFor=$@
+    resetFolderIcon "$python_path" "$PathToResetIconFor"
+    echo "Reset icon for: $@"
 fi
